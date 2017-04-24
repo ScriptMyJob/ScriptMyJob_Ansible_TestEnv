@@ -137,7 +137,7 @@ ansible all -i inventory_file -m ping -b
 Where:
 
 ``` bash
-all : referes all vms specified in this file
+all : refers all vms specified in this file
 -i  : specifies the inventory file
 -m  : specifies the module
 -b  : specifies using become (replacement for --sudo)
