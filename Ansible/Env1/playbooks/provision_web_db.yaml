@@ -1,0 +1,115 @@
+---
+#######################################
+### Repo Management ###################
+#######################################
+
+  # CentOS Servers
+  ######################################
+
+- hosts: centos
+  tasks:
+  - name: Install the Epel Repo.
+    yum:
+      name: epel-release
+      state: present
+    become: true
+
+- hosts: db_servers:!ubuntu
+  tasks:
+  - name: Download mysql Repo for RHEL based systems
+    get_url:
+      url: http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
+      dest: /tmp/mysql-community-release-el7-5.noarch.rpm
+
+  - name: Install mysql Repo that was downloaded
+    yum:
+      name: /tmp/mysql-community-release-el7-5.noarch.rpm
+      state: present
+    become: true
+
+
+
+#######################################
+### Software Upgrades #################
+#######################################
+
+- include: patching.yaml
+
+#######################################
+### Software Installation #############
+#######################################
+
+  # Web Servers
+  ######################################
+
+- hosts: web_servers:!centos
+  tasks:
+  - name: install nginx on Debian based servers
+    apt:
+      name: nginx
+      update_cache: yes
+      state: present
+    become: true
+
+- hosts: web_servers:!ubuntu
+  tasks:
+  - name: Installing Nginx on rhel based servers
+    yum:
+      name: nginx
+      state: present
+    become: true
+
+  # Database Servers
+  ######################################
+
+- hosts: db_servers:!centos
+  tasks:
+  - name: install mysql on Debian based servers
+    apt:
+      name: mysql-server
+      update_cache: yes
+      state: present
+    become: true
+
+- hosts: db_servers:!ubuntu
+  tasks:
+  - name: Install mysql on RHEL based servers
+    yum:
+      name: mysql-server
+      state: present
+    become: true
+
+#######################################
+### Service Management ################
+#######################################
+
+  # Web Servers
+  ######################################
+
+- hosts: web_servers
+  tasks:
+  - name: Start Nginx
+    service:
+      name: nginx
+      state: started
+    become: true
+
+  # Database Servers
+  ######################################
+
+- hosts: db_servers:!centos
+  tasks:
+  - name: start mysql on Debian based servers
+    service:
+      name: mysql
+      state: started
+    become: true
+
+- hosts: db_servers:!ubuntu
+  tasks:
+  - name: start mysql on RHEL based servers
+    service:
+      name: mysqld
+      state: started
+    become: true
+

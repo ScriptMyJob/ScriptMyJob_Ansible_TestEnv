@@ -1,0 +1,1 @@
+This is just a test environment for the init.sh script

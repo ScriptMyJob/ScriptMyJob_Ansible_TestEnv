@@ -1,0 +1,1 @@
+This is a 2 web server 2 database environment with 1 vCPU and 512M per instance.

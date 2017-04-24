@@ -1,0 +1,57 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+#######################################
+### Web Servers  ######################
+#######################################
+
+  config.vm.define "web1" do |web1|
+    web1.vm.box = "ubuntu/xenial64"
+    web1.ssh.insert_key = false
+    web1.vm.hostname = "web1"
+    web1.vm.network "private_network", ip: "192.168.128.100"
+    web1.vm.provision "shell", inline: <<-SHELL
+      # Resetting ubuntu password (Not set by default with 16.04 image)
+      echo "ubuntu:ubuntu" | sudo chpasswd
+
+      # installing python for ansible (16.04 image does not have python for some ungodly reason)
+      sudo apt install python aptitude -y
+
+      sed -i "/PasswordAuthentication no/c\PasswordAuthentication yes" /etc/ssh/sshd_config
+      systemctl restart sshd
+    SHELL
+  end
+
+  config.vm.define "web2" do |web2|
+    web2.vm.box = "centos/6"
+    web2.vm.hostname = "web2"
+    web2.vm.network "private_network", ip: "192.168.128.101"
+    web2.vm.provision "shell", inline: <<-SHELL
+      sed -i "/PasswordAuthentication no/c\PasswordAuthentication yes" /etc/ssh/sshd_config
+      service sshd restart
+    SHELL
+  end
+
+#######################################
+### Database Servers  #################
+#######################################
+
+  config.vm.define "db1" do |db1|
+    db1.vm.box = "ubuntu/trusty64"
+    db1.vm.hostname = "db1"
+    db1.vm.network "private_network", ip: "192.168.128.200"
+  end
+
+  config.vm.define "db2" do |db2|
+    db2.vm.box = "centos/7"
+    db2.vm.hostname = "db2"
+    db2.vm.network "private_network", ip: "192.168.128.201"
+    db2.vm.provision "shell", inline: <<-SHELL
+      sed -i "/PasswordAuthentication no/c\PasswordAuthentication yes" /etc/ssh/sshd_config
+      systemctl restart sshd
+    SHELL
+  end
+
+end

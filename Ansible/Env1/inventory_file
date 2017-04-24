@@ -1,0 +1,26 @@
+[all_local]
+web1    ansible_host=192.168.128.100    ansible_user=ubuntu    ansible_ssh_pass=ubuntu    ansible_become_pass=ubuntu
+web2    ansible_host=192.168.128.101
+db1     ansible_host=192.168.128.200
+db2     ansible_host=192.168.128.201
+
+[web_servers]
+web1
+web2
+
+[db_servers]
+db1
+db2
+
+[ubuntu]
+web1
+db1
+
+[centos]
+web2
+db2
+
+[all_local:vars]
+ansible_user=vagrant
+ansible_ssh_pass=vagrant
+ansible_become_pass=vagrant
