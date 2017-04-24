@@ -105,7 +105,7 @@ git clone https://github.com/ScriptMyJob/ScriptMyJob_Ansible_TestEnv
 Change Directory to Vagrant Directory:
 
 ``` bash
-cd "$HOME/Git/Ansible_TestEnv/Vagrant/Env1"
+cd "$HOME/Git/ScriptMyJob_Ansible_TestEnv/Vagrant/Env1"
 ```
 
 Provision Vagrant VMs:
@@ -119,7 +119,7 @@ vagrant up
 Change Directory to the Anisble Directory
 
 ``` bash
-cd "$HOME/Git/Ansible_TestEnv/Ansible/Env1"
+cd "$HOME/Git/ScriptMyJob_Ansible_TestEnv/Ansible/Env1"
 ```
 
 It is recommended that you disable host key checking for your testing environment since these testing servers will likely be created and destroyed multiple times.  This can be done vai:
@@ -147,7 +147,7 @@ all : refers all vms specified in this file
 Change Directory to the Anisble playbook Directory
 
 ``` bash
-cd "$HOME/Git/Ansible_TestEnv/Ansible/Env1/playbooks"
+cd "$HOME/Git/ScriptMyJob_Ansible_TestEnv/Ansible/Env1/playbooks"
 ```
 
 Provision Nginx and MySQL on web and database servers respectively:
@@ -161,7 +161,7 @@ ansible-playbook provision_web_db.yaml
 Change the current working directory back to the main Vagrant directory:
 
 ``` bash
-cd "$HOME/Git/Ansible_TestEnv/Vagrant/Env1"
+cd "$HOME/Git/ScriptMyJob_Ansible_TestEnv/Vagrant/Env1"
 ```
 
 Deprovision Vagrant VMs
